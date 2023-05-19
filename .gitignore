@@ -1,7 +1,10 @@
 
 .pytest_cache*
-__pycache__*
+*__pycache__*
 
 .venv/
 
 .ipynb_checkpoints
+
+data/Daily m3 1315.csv
+data/Yorkshire Water consumer habits.csv
