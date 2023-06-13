@@ -106,6 +106,7 @@ def get_column_impact_df(model, X):
 
 def fit_models_based_on_score(model, X_train, X_test, Y_train, Y_test, up_to=10):
     final_cols = []
+    best_scores = []
     max_score = 0
     cols_to_check = X_train.columns
     not_done = True
@@ -113,6 +114,8 @@ def fit_models_based_on_score(model, X_train, X_test, Y_train, Y_test, up_to=10)
         not_done = False
         next_col = None
         for col in cols_to_check:
+            if col in final_cols:
+                continue
             cols = final_cols + [col]
             model.fit(X_train.loc[:, cols], Y_train)
             score = model.score(X_test.loc[:, cols], Y_test)
@@ -122,10 +125,11 @@ def fit_models_based_on_score(model, X_train, X_test, Y_train, Y_test, up_to=10)
                 not_done = True
         if next_col is not None:
             final_cols.append(next_col)
+            best_scores.append(max_score)
         if len(final_cols) >= up_to:
             not_done = False
 
-    return final_cols
+    return final_cols, best_scores
 
 
 # key = max or mean
